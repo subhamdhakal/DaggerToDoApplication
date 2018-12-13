@@ -5,19 +5,19 @@ import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import subham.com.todo.database.Note
-import subham.com.todo.database.NoteDao
+import subham.com.todo.database.ToDo
+import subham.com.todo.database.ToDoDao
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NoteRepository
+class DayRepository
 @Inject
-constructor(var noteDao: NoteDao) {
+constructor(var dayDao: ToDoDao) {
     val TAG = "NoteRepository"
-    fun insert(note: Note) {
+    fun insert(toDo: ToDo) {
         Completable.fromAction {
-            noteDao.insert(note)
+            dayDao.insertDay(toDo)
         }.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
@@ -26,21 +26,19 @@ constructor(var noteDao: NoteDao) {
                 it.printStackTrace()
             })
     }
-
-    fun update(note: Note) {
+//    fun update(day: Day) {
+//        Completable.fromAction {
+//            //            noteDao.update(note)
+//        }.observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.io())
+//            .subscribe({
+//                Log.d(TAG, "Sucessfully updated")
+//            }, {
+//            })
+//    }
+    fun deleteToDo(toDo: ToDo) {
         Completable.fromAction {
-            noteDao.update(note)
-        }.observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                Log.d(TAG, "Sucessfully updated")
-            }, {
-            })
-    }
-
-    fun delete(note: Note) {
-        Completable.fromAction {
-            noteDao.delete(note)
+            dayDao.deleteToDo(toDo)
         }.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
@@ -49,18 +47,21 @@ constructor(var noteDao: NoteDao) {
             })
     }
 
-    fun deleteAllNotes() {
-        Completable.fromAction {
-            noteDao.deleteAllNotes()
-        }.observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                Log.d(TAG, "Sucessfully deleted all notes")
-            }, {
-            })
-    }
-
-    fun getAllNotes(): LiveData<List<Note>> {
-        return noteDao.getAllNotes()
+//    fun deleteAllToDo() {
+//        Completable.fromAction {
+//            //            noteDao.deleteAllNotes()
+//        }.observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.io())
+//            .subscribe({
+//                Log.d(TAG, "Sucessfully deleted all notes")
+//            }, {
+//            })
+//    }
+    fun getAllToDo(todayStart:Long,todayEnd:Long): LiveData<List<ToDo>> {
+        return dayDao.getAllToDo(todayStart,todayEnd)
     }
 }
+//    fun getAllToDo(): LiveData<List<ContactsContract.CommonDataKinds.Note>> {
+////        return noteDao.getAllNotes()
+//    }
+//}

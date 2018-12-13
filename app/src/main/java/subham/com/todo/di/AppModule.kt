@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import subham.com.todo.database.NoteDatabase
+import subham.com.todo.database.DayDatabase
 import javax.inject.Singleton
 
 @Module
@@ -17,11 +17,11 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(application: Application): NoteDatabase {
-        val database: NoteDatabase = Room
+    fun provideDatabase(application: Application): DayDatabase {
+        val database: DayDatabase = Room
             .databaseBuilder(
                 application.applicationContext,
-                NoteDatabase::class.java, "note_database"
+                DayDatabase::class.java, "day_database"
             )
             .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
@@ -31,5 +31,5 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideNoteDao(database: NoteDatabase) = database.noteDao
+    fun provideDayDao(database: DayDatabase) = database.toDoDao
 }

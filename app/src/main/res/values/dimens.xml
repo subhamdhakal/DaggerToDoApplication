@@ -1,0 +1,176 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="padding_20dp">20dp</dimen>
+    <dimen name="padding_34dp">34dp</dimen>
+    <dimen name="padding_80dp">80dp</dimen>
+
+    <dimen name="margin_2dp">2dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
+    <dimen name="margin_14dp">14dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_24dp">20dp</dimen>
+    <dimen name="margin_32dp">32dp</dimen>
+    <dimen name="margin_36dp">36dp</dimen>
+    <dimen name="margin_40dp">40dp</dimen>
+    <dimen name="margin_45dp">45dp</dimen>
+    <dimen name="margin_56dp">56dp</dimen>
+    <dimen name="margin_60dp">60dp</dimen>
+    <dimen name="margin_80dp">80dp</dimen>
+    <dimen name="margin_94dp">94dp</dimen>
+
+    <dimen name="item_width_90dp">90dp</dimen>
+    <dimen name="item_width_271dp">271dp</dimen>
+
+    <dimen name="item_height_2dp">2dp</dimen>
+    <dimen name="item_height_75dp">75dp</dimen>
+    <dimen name="item_height_100dp">100dp</dimen>
+
+    <dimen name="image_12dp">12dp</dimen>
+    <dimen name="image_16dp">16dp</dimen>
+    <dimen name="image_48dp">48dp</dimen>
+    <dimen name="image_24dp">24dp</dimen>
+    <dimen name="image_40dp">40dp</dimen>
+    <dimen name="image_104">104dp</dimen>
+
+    <dimen name="img_width_90dp">90dp</dimen>
+    <dimen name="img_height_60dp">60dp</dimen>
+    <dimen name="img_height_160dp">160dp</dimen>
+
+    <dimen name="appbar_height_123dp">123dp</dimen>
+
+
+    <dimen name="text_10sp">10sp</dimen>
+    <dimen name="text_12sp">12sp</dimen>
+    <dimen name="text_14sp">14sp</dimen>
+    <dimen name="text_15sp">15dp</dimen>
+    <dimen name="text_16sp">16sp</dimen>
+    <dimen name="text_20sp">20sp</dimen>
+    <dimen name="text_22sp">22sp</dimen>
+    <dimen name="text_24sp">24sp</dimen>
+
+    <dimen name="content_inset_start_72dp">72dp</dimen>
+    <dimen name="elevation_6dp">6dp</dimen>
+    <dimen name="elevation_4dp">4dp</dimen>
+    <dimen name="margin_48dp">48dp</dimen>
+    <dimen name="item_height_48dp">48dp</dimen>
+    <dimen name="item_height_1dp">1dp</dimen>
+
+    <dimen name="dashboard_header_image_height">160dp</dimen>
+
+    <dimen name="spacing_2">2dp</dimen>
+    <dimen name="spacing_10">10dp</dimen>
+    <dimen name="spacing_5">5dp</dimen>
+    <dimen name="spacing_7">7dp</dimen>
+    <dimen name="spacing_12">12dp</dimen>
+    <dimen name="spacing_14">14dp</dimen>
+    <dimen name="spacing_16">16dp</dimen>
+    <dimen name="spacing_20">20dp</dimen>
+    <dimen name="spacing_22">22dp</dimen>
+    <dimen name="spacing_25">25dp</dimen>
+    <dimen name="spacing_30">30dp</dimen>
+    <dimen name="spacing_32">32dp</dimen>
+    <dimen name="spacing_34">34dp</dimen>
+    <dimen name="spacing_36">36dp</dimen>
+    <dimen name="spacing_40">40dp</dimen>
+    <dimen name="spacing_45">45dp</dimen>
+    <dimen name="spacing_50">50dp</dimen>
+    <dimen name="spacing_80">80dp</dimen>
+    <dimen name="spacing_108">108dp</dimen>
+
+    <dimen name="text_12">12sp</dimen>
+    <dimen name="text_14">14sp</dimen>
+    <dimen name="text_16">16sp</dimen>
+    <dimen name="text_20">20sp</dimen>
+    <dimen name="text_24">24sp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="spacing_5dp">5dp</dimen>
+
+    <dimen name="text_size_24sp">24sp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+    <dimen name="add_audit_appbar_height">123dp</dimen>
+    <dimen name="delete_height_width">48dp</dimen>
+    <dimen name="spacing_94dp">94dp</dimen>
+    <dimen name="collapsed_standards_width">89dp</dimen>
+    <dimen name="spacing_59dp">59dp</dimen>
+    <dimen name="spacing_37dp">37dp</dimen>
+    <dimen name="spacing_12dp">12dp</dimen>
+    <dimen name="spacing_8dp">8dp</dimen>
+
+    <dimen name="image_39dp">39dp</dimen>
+
+    <dimen name="expanded_standards_width">271dp</dimen>
+    <dimen name="standard_item_height">100dp</dimen>
+    <dimen name="spacing_24dp">20dp</dimen>
+    <dimen name="spacing_7dp">7dp</dimen>
+    <dimen name="criteria_item_height">75dp</dimen>
+    <dimen name="spacing_19dp">19dp</dimen>
+    <dimen name="image_13dp">13dp</dimen>
+    <dimen name="spacing_36dp">36dp</dimen>
+    <dimen name="spacing_38dp">38dp</dimen>
+    <dimen name="text_63dp">63dp</dimen>
+    <dimen name="spacing_63dp">63dp</dimen>
+    <dimen name="spacing_20dp">20dp</dimen>
+    <dimen name="spacing_10dp">10dp</dimen>
+    <dimen name="spacing_56dp">56dp</dimen>
+    <dimen name="spacing_16dp">16dp</dimen>
+    <dimen name="spacing_33dp">33dp</dimen>
+    <dimen name="spacing_35dp">35dp</dimen>
+    <dimen name="height_supplier_page_head">234dp</dimen>
+    <dimen name="text_36sp">36sp</dimen>
+    <dimen name="text_18sp">18sp</dimen>
+    <dimen name="padding_48dp">48dp</dimen>
+    <dimen name="height_supplier_page_details">250dp</dimen>
+    <dimen name="spacing_28dp">28dp</dimen>
+    <dimen name="item_height_124dp">124dp</dimen>
+    <dimen name="margin_230dp">230dp</dimen>
+    <dimen name="item_width_284dp">310dp</dimen>
+    <dimen name="item_height_120dp">120dp</dimen>
+    <dimen name="padding_30dp">30dp</dimen>
+    <dimen name="item_height_144dp">144dp</dimen>
+    <dimen name="padding_24dp">24dp</dimen>
+    <dimen name="item_height_24dp">24dp</dimen>
+    <dimen name="item_height_30dp">30dp</dimen>
+    <dimen name="content_inset_start_48dp">48dp</dimen>
+    <dimen name="content_inset_start_32dp">32dp</dimen>
+    <dimen name="elevation_2dp">2dp</dimen>
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="radius_4dp">4dp</dimen>
+    <dimen name="margin_34dp">34dp</dimen>
+    <dimen name="margin_70dp">70dp</dimen>
+
+    <!--for bottom navigation view-->
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">14sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">14sp</dimen>
+    <dimen name="design_bottom_navigation_height" tools:override="true">70dp</dimen>
+    <dimen name="design_bottom_navigation_item_max_width" tools:override="true">600dp</dimen>
+    <dimen name="design_bottom_navigation_active_item_max_width" tools:override="true">600dp</dimen>
+    <dimen name="spacing_48">48dp</dimen>
+    <dimen name="mediawidth">104dp</dimen>
+    <dimen name="mediaheight">104dp</dimen>
+    <dimen name="spacing_8">8dp</dimen>
+    <dimen name = "spacing_9">9dp</dimen>
+    <dimen name = "spacing_120">120dp</dimen>
+    <dimen name = "spacing_3">3dp</dimen>
+    <dimen name = "spacing_4">4dp</dimen>
+    <dimen name = "spacing_72">72dp</dimen>
+    <dimen name="text_32">32sp</dimen>
+    <dimen name="spacing_130">130dp</dimen>
+
+    <dimen name="bootstrap_default_corner_radius">3dp</dimen>
+    <dimen name="bootstrap_progress_bar_height">20dp</dimen>
+    <dimen name="bootstrap_badge_default_size">16dp</dimen>
+    <dimen name="bootstrap_progress_bar_default_font_size">17sp</dimen>
+    <dimen name="bootstrap_button_default_font_size">14sp</dimen>
+
+</resources>
