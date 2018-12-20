@@ -10,13 +10,13 @@ import java.util.*
  * Created by devdeeds.com on 5/12/17.
  */
 class NotificationUtils {
-    fun setNotification(todoTitle:String,requestCode:Int,timeInMilliSeconds: Long, activity: Activity) {
+    fun setNotification(todoTitle: String, requestCode: Int, timeInMilliSeconds: Long, activity: Activity) {
         //------------  alarm settings start  -----------------//
         if (timeInMilliSeconds > 0) {
             val alarmManager = activity.getSystemService(Activity.ALARM_SERVICE) as AlarmManager
             val alarmIntent =
                 Intent(activity.applicationContext, AlarmReceiver::class.java) // AlarmReceiver1 = broadcast receiver
-            alarmIntent.putExtra("todoTitle",todoTitle)
+            alarmIntent.putExtra("todoTitle", todoTitle)
             alarmIntent.putExtra("reason", "notification")
             alarmIntent.putExtra("timestamp", timeInMilliSeconds)
             val pendingIntent =
@@ -34,5 +34,10 @@ class NotificationUtils {
 //            )
         }
         //------------ end of alarm settings  -----------------//
+    }
+    fun cancelNotification(requestCode: Int, activity: Activity) {
+        val alarmIntent =
+            Intent(activity.applicationContext, AlarmReceiver::class.java) // AlarmReceiver1 = broadcast receiver
+        PendingIntent.getBroadcast(activity, requestCode, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT).cancel()
     }
 }
