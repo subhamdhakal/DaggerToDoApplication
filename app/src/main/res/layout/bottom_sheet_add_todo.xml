@@ -183,13 +183,13 @@
             app:layout_constraintStart_toEndOf = "@+id/button_15_mins_before"
             app:layout_constraintTop_toTopOf = "@+id/button_in_24_hours"
             app:layout_constraintVertical_bias = "0.0" />
-
         <Button
             android:id = "@+id/button_15_mins_before"
             android:layout_width = "wrap_content"
             android:layout_height = "@dimen/spacing_20"
             android:layout_marginTop = "24dp"
             android:layout_marginEnd = "16dp"
+            android:padding="@dimen/spacing_2"
             android:background = "@drawable/bg_rounded_rectangle_large_radius_gray"
             android:paddingLeft = "@dimen/spacing_8"
             android:paddingRight = "@dimen/spacing_8"

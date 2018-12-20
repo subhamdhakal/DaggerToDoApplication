@@ -1,11 +1,9 @@
 package subham.com.todo.activity
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
@@ -122,8 +120,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 //            }
 //        }
         button_next.setOnClickListener {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            edit_text_in_dialog.clearFocus()
+            button_next.visibility=View.INVISIBLE
             this.hideKeyboard(edit_text_in_dialog)
+            Handler().postDelayed({
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }, 200)
         }
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.radio_button_high)
@@ -136,11 +138,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         toggle_time_set.setOnCheckedChangeListener { view, isChecked ->
             if (isChecked) {
                 isToggleChecked = isChecked
-                this.hideKeyboard(relative_layout_edit_text)
                 setVisible()
             } else if (!isChecked) {
                 isToggleChecked = false
-                this.hideKeyboard(relative_layout_edit_text)
                 setInvisible()
             }
         }
@@ -176,11 +176,13 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
+                        button_next.visibility = View.VISIBLE
                         image_view_arrow.animate().rotation(0f).setDuration(500).start()
                     }
                     BottomSheetBehavior.STATE_HIDDEN -> {
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
+                        button_next.visibility = View.INVISIBLE
                         image_view_arrow.animate().rotation(180f).setDuration(500).start()
                     }
                     BottomSheetBehavior.STATE_DRAGGING -> {
