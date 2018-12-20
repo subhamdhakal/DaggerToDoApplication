@@ -5,37 +5,29 @@
       <map>
         <entry key="imageWizard">
           <value>
-            <PersistentState />
-          </value>
-        </entry>
-        <entry key="vectorWizard">
-          <value>
             <PersistentState>
               <option name="children">
                 <map>
-                  <entry key="vectorAssetStep">
+                  <entry key="imageAssetPanel">
                     <value>
                       <PersistentState>
                         <option name="children">
                           <map>
-                            <entry key="clipartAsset">
+                            <entry key="launcher">
                               <value>
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_arrow_up_black_24dp.xml" />
+                                      <entry key="backgroundLayerName" value="ic_launcher_background" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/Archive/@0.5xicon-grey.svg" />
+                                      <entry key="foregroundLayerName" value="ic_launcher_foreground" />
+                                      <entry key="outputName" value="ic_todo_icon_grey" />
+                                      <entry key="previewDensity" value="XXHIGH" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="color" value="b4b4c6" />
-                            <entry key="outputName" value="ic_keyboard_arrow_up_gray_24dp" />
-                            <entry key="sourceFile" value="C:\Users\Subham Dhakal\Desktop\round-error-symbol.svg" />
                           </map>
                         </option>
                       </PersistentState>
@@ -44,6 +36,11 @@
                 </map>
               </option>
             </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState />
           </value>
         </entry>
       </map>

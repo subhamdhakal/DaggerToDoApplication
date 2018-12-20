@@ -100,3 +100,10 @@ fun getThreeMonthEarlierDate(): Long {
     c.add(Calendar.MONTH, -3)
     return c.timeInMillis
 }
+
+fun convertSecondsToHMmSs(seconds: Long): String {
+    val s = seconds % 60
+    val m = seconds / 60 % 60
+    val h = seconds / (60 * 60) % 24
+    return String.format("%d:%02d", h, m)
+}

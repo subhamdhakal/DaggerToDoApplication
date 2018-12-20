@@ -25,17 +25,26 @@ class DayVM : BaseObservable() {
             else-> return R.drawable.ic_prioroty_indicator_green
         }
     }
-    fun getStatus():Int{
+      fun getStatus():Int{
         if(!todo.doneStatus) return R.drawable.ic_tick_inside_a_circle
         else return R.drawable.ic_done_yellow_24dp
 
     }
+
+    fun getNotificationIcon():Int{
+        if(todo.remainder!=null && todo.remainder!= Long.MIN_VALUE){
+            return R.drawable.ic_notifications_gray_24dp
+        }else if (todo.remainder==null){
+            return 0
+        }
+        else return 0
+    }
     fun getToDoTime():String{
         if(todo.hasTime) {
-            var calendar = Calendar.getInstance()
-            calendar.timeInMillis=todo.timeToDo
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = todo.timeToDo!!
             return calendar.time.toString()
-        }
-        else return ""
+        }else
+            return ""
     }
 }

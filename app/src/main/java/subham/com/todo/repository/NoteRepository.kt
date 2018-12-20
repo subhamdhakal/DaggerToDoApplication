@@ -60,6 +60,20 @@ constructor(var dayDao: ToDoDao) {
     fun getAllToDo(todayStart:Long,todayEnd:Long): LiveData<List<ToDo>> {
         return dayDao.getAllToDo(todayStart,todayEnd)
     }
+
+    fun updateToDoStatus(toDo: ToDo) {
+        Completable.fromAction {
+            dayDao.updateToDoStatus(toDo)
+        }.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    Log.d(TAG, "Sucessfully inserted")
+                }, {
+                    it.printStackTrace()
+                })
+
+    }
+
 }
 //    fun getAllToDo(): LiveData<List<ContactsContract.CommonDataKinds.Note>> {
 ////        return noteDao.getAllNotes()

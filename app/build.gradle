@@ -11,7 +11,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "subham.com.rxkotlinapplication"
-        minSdkVersion 23
+        minSdkVersion 22
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation "com.android.support:support-compat:27.1.1"
 
 // Coroutines
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"

@@ -2,6 +2,8 @@ package subham.com.todo.viewmodel
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import io.reactivex.Completable
+import io.reactivex.Flowable
 import subham.com.todo.database.ToDo
 import subham.com.todo.repository.DayRepository
 
@@ -15,10 +17,15 @@ class DayViewModel(private var repository: DayRepository) : ViewModel() {
 //        return repository.update(note)
 //    }
 //
-    fun deleteNote(toDo: ToDo) {
+    fun deleteToDo(toDo: ToDo) {
         return repository.deleteToDo(toDo)
     }
-//
+
+    fun updateToDoStatus(toDo: ToDo) {
+        return repository.updateToDoStatus(toDo)
+    }
+
+    //
 //    fun deleteAllNotes() {
 //        return repository.deleteAllNotes()
 //    }
@@ -26,7 +33,7 @@ class DayViewModel(private var repository: DayRepository) : ViewModel() {
 //    fun getAllDay: LiveData<Day>> {
 //        return repository.getAllDay(LiveData<Day>)
 //    }
-    fun getTodosForToday(todayStart:Long,todayEnd:Long): LiveData<List<ToDo>> {
-        return repository.getAllToDo(todayStart,todayEnd)
+    fun getTodosForToday(todayStart: Long, todayEnd: Long): LiveData<List<ToDo>> {
+        return repository.getAllToDo(todayStart, todayEnd)
     }
 }

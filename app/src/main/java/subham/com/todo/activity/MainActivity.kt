@@ -1,51 +1,123 @@
 package subham.com.todo.activity
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v4.app.NotificationCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.github.badoualy.datepicker.DatePickerTimeline
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_sheet_add_todo.*
 import subham.com.todo.R
-import subham.com.todo.R.id.*
 import subham.com.todo.adapter.DayAdapter
 import subham.com.todo.adapter.SwipeToDeleteCallback
 import subham.com.todo.base.BaseActivity
+import subham.com.todo.constants.IntConstants
 import subham.com.todo.database.ToDo
+import subham.com.todo.notification.NotificationUtils
 import subham.com.todo.util.Priority
 import subham.com.todo.viewmodel.DayViewModel
 import java.util.*
 import javax.inject.Inject
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), View.OnClickListener {
+    lateinit var notificationManager: NotificationManager
+    lateinit var notificationBuilder: NotificationCompat.Builder
+    val NOTIFICATION_REQUEST_CODE = 101
+    override fun onClick(p0: View?) {
+        button_15_mins_before.background = getDrawable(R.drawable.bg_rounded_rectangle_large_radius_gray)
+        button_an_hour_before.background = getDrawable(R.drawable.bg_rounded_rectangle_large_radius_gray)
+        button_in_24_hours.background = getDrawable(R.drawable.bg_rounded_rectangle_large_radius_gray)
+
+        button_15_mins_before.setTextColor(ContextCompat.getColor(this, R.color.black))
+        button_an_hour_before.setTextColor(ContextCompat.getColor(this, R.color.black))
+        button_in_24_hours.setTextColor(ContextCompat.getColor(this, R.color.black))
+
+
+        when (p0?.id) {
+            button_15_mins_before.id -> {
+                setFocus(button_15_mins_before)
+                remainderTime = 900000
+            }
+            button_an_hour_before.id -> {
+                setFocus(button_an_hour_before)
+                remainderTime = 3600000
+            }
+            button_in_24_hours.id -> {
+                setFocus(button_in_24_hours)
+                remainderTime = 86400000
+            }
+        }
+    }
+
+    private fun setFocus(button_focus: Button) {
+        button_focus.background = getDrawable(R.drawable.bg_rounded_rectangle_large_radius_purple)
+        button_focus.setTextColor(ContextCompat.getColor(this, R.color.white))
+    }
+
+    var remainderTime: Long = 900000
     var priority = Int.MIN_VALUE
-    val adapter = DayAdapter(this)
-    var isToggleChecked=false
+    lateinit var adapter: DayAdapter
+    var isToggleChecked = false
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     override fun getLayout(): Int {
         return R.layout.activity_main
     }
-    var selectedCurrentDate:Long= Calendar.getInstance().timeInMillis
 
+    var selectedCurrentDate: Long = Calendar.getInstance().timeInMillis
     val TAG = MainActivity::class.java.simpleName
     @Inject
     lateinit var dayViewModel: DayViewModel
     var listOfToDo: MutableList<ToDo> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        reclycler_view.layoutManager = LinearLayoutManager(this)
-        reclycler_view.adapter = adapter
+        button_15_mins_before.setOnClickListener(this)
+        button_an_hour_before.setOnClickListener(this)
+        button_in_24_hours.setOnClickListener(this)
+        setInvisible()
+//        createNotificationChannel()
+        adapter = DayAdapter(this, object : DayAdapter.ClickListener {
+            override fun onCheckClickListener(todo: ToDo) {
+                Log.e(TAG, "called")
 
-        toggle_time_set.setOnCheckedChangeListener { view, isChecked ->
-            if (isChecked)
-                isToggleChecked=isChecked
+                Toast.makeText(this@MainActivity, "todo : $todo", Toast.LENGTH_SHORT).show()
+                if (!todo.doneStatus) {
+                    todo.doneStatus = true
+                    dayViewModel.updateToDoStatus(todo)
+                    fetchToDosForThatDay(selectedCurrentDate)
+                } else if (todo.doneStatus) {
+                    todo.doneStatus = false
+                    dayViewModel.updateToDoStatus(todo)
+                    fetchToDosForThatDay(selectedCurrentDate)
+                }
+            }
+        })
+        reclycler_view.layoutManager = LinearLayoutManager(this)
+
+        reclycler_view.adapter = adapter
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 14)
+        calendar.set(Calendar.MINUTE, 52)
+        NotificationUtils().setNotification(" ba js", 2, calendar.timeInMillis, this@MainActivity)
+//        calendar.set(Calendar.HOUR_OF_DAY,22)
+//        calendar.set(Calendar.MINUTE,29)
+//        NotificationUtils().cancelNotification(1,calendar.timeInMillis, this@MainActivity)
+        edit_text_in_dialog.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
+
 
 
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -57,20 +129,26 @@ class MainActivity : BaseActivity() {
                 priority = Priority.PRIORITY_LOW
         }
         toggle_time_set.setOnCheckedChangeListener { view, isChecked ->
-            if(isChecked)
-                time_picker.visibility=View.VISIBLE
-            else
-                time_picker.visibility=View.GONE
+            if (isChecked) {
+                isToggleChecked = isChecked
+                setVisible()
+            } else if (!isChecked) {
+                isToggleChecked = false
+                setInvisible()
+            }
         }
+
+
         date_picker.onDateSelectedListener =
                 DatePickerTimeline.OnDateSelectedListener { year, month, day, index ->
                     val calendar = Calendar.getInstance()
                     calendar.set(year, month, day)
-                    Toast.makeText(this, "Time in millis" + calendar.timeInMillis, Toast.LENGTH_SHORT).show()
-                    Log.e(TAG,"time in milllis"+calendar.timeInMillis)
-                    selectedCurrentDate=calendar.timeInMillis
+//                    Toast.makeText(this, "Time in millis" + calendar.timeInMillis, Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, "time in milllis" + calendar.timeInMillis)
+                    selectedCurrentDate = calendar.timeInMillis
                     fetchToDosForThatDay(selectedCurrentDate)
                 }
+
 
 
 
@@ -112,8 +190,7 @@ class MainActivity : BaseActivity() {
         }
         val swipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = reclycler_view.adapter as DayAdapter
-                dayViewModel.deleteNote(listOfToDo[viewHolder.adapterPosition])
+                dayViewModel.deleteToDo(listOfToDo[viewHolder.adapterPosition])
 //                adapter.removeAt(viewHolder.adapterPosition)
 //                dayViewModel.deleteNote(listOfToDo[viewHolder.position])
             }
@@ -123,8 +200,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun fetchToDosForThatDay(selectedCurrentDate: Long) {
-        val calendar=Calendar.getInstance()
-        calendar.timeInMillis=selectedCurrentDate
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = selectedCurrentDate
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
@@ -136,16 +213,13 @@ class MainActivity : BaseActivity() {
         calendar.set(Calendar.MILLISECOND, 999)
         val todayEnd = calendar.timeInMillis
 
-        dayViewModel.getTodosForToday(todayStart,todayEnd).observe(this, android.arch.lifecycle.Observer { it ->
+        dayViewModel.getTodosForToday(todayStart, todayEnd).observe(this, android.arch.lifecycle.Observer { it ->
             adapter.setData(it)
             listOfToDo = it as MutableList<ToDo>
-
         })
-
     }
 
     private fun fetchToDosForToday() {
-
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
         calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -159,38 +233,134 @@ class MainActivity : BaseActivity() {
         calendar.set(Calendar.MILLISECOND, 999)
         val todayEnd = calendar.timeInMillis
 
-        dayViewModel.getTodosForToday(todayStart,todayEnd).observe(this, android.arch.lifecycle.Observer { it ->
+        dayViewModel.getTodosForToday(todayStart, todayEnd).observe(this, android.arch.lifecycle.Observer { it ->
             adapter.setData(it)
             listOfToDo = it as MutableList<ToDo>
-
         })
     }
 
     private fun saveToDo() {
         val title = edit_text_in_dialog.text.toString()
         var status = false
-        var hasCertainTime=false
+        var hasCertainTime = false
+        var todo1: ToDo?
 
-        if (isToggleChecked){
-            hasCertainTime=true
+        if (isToggleChecked) {
+            hasCertainTime = true
             //get that day and set its time and minutes to that of time picker, get that time in milliseconds and the pass it as a parameter
-            val calendar=Calendar.getInstance()
-            calendar.timeInMillis=selectedCurrentDate
-            calendar.set(Calendar.HOUR_OF_DAY,time_picker.hour)
-            calendar.set(Calendar.MINUTE,time_picker.minute)
-            selectedCurrentDate=calendar.timeInMillis
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = selectedCurrentDate
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                calendar.set(Calendar.HOUR_OF_DAY, time_picker.hour)
+                calendar.set(Calendar.MINUTE, time_picker.minute)
+            } else {
+                calendar.set(Calendar.HOUR_OF_DAY, time_picker.currentHour)
+                calendar.set(Calendar.MINUTE, time_picker.currentMinute)
+            }
+            selectedCurrentDate = calendar.timeInMillis
+            todo1 = ToDo(
+                0,
+                title = title,
+                doneStatus = status,
+                priority = priority,
+                remainder = selectedCurrentDate - remainderTime,
+                timeToDo = selectedCurrentDate,
+                hasTime = hasCertainTime,
+                notificationId = (System.currentTimeMillis() / 1000 / 60).toInt()
+            )
+            dayViewModel.insertToDO(todo1)
+            NotificationUtils().setNotification(
+                todo1.title,
+                todo1.notificationId!!,
+                todo1.remainder!!,
+                this@MainActivity
+            )
+        } else if (!isToggleChecked) {
+            todo1 = ToDo(
+                0,
+                title = title,
+                doneStatus = status,
+                priority = priority,
+                remainder = null,
+                timeToDo = selectedCurrentDate,
+                hasTime = false,
+                notificationId = null
+            )
+            dayViewModel.insertToDO(todo1)
+//            NotificationUtils().setNotification(
+//                todo1.title,
+//                todo1.notificationId!!,
+//                todo1.timeToDo!!,
+//                this@MainActivity
+//            )
         }
-              val todo = ToDo( null, title, status, priority, "15:00",selectedCurrentDate,hasCertainTime)
-        dayViewModel.insertToDO(todo)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        isToggleChecked=false
+        isToggleChecked = false
+        fetchToDosForThatDay(selectedCurrentDate)
         clearFields()
+    }
+
+    private fun increaseId() {
+        IntConstants.id = IntConstants.id + 1
+    }
+
+    private fun notifySaved() {
+        notificationBuilder.setContentTitle("ToDo saved")
+        notificationManager.notify(101, notificationBuilder.build())
     }
 
     private fun clearFields() {
         edit_text_in_dialog.setText("")
         radioGroup.check(R.id.radio_button_low)
-        fetchToDosForThatDay(selectedCurrentDate)
+        toggle_time_set.isChecked = false
+    }
+
+    fun setVisible() {
+        time_picker.visibility = View.VISIBLE
+        button_in_24_hours.visibility = View.VISIBLE
+        button_an_hour_before.visibility = View.VISIBLE
+        button_15_mins_before.visibility = View.VISIBLE
+        view.visibility = View.VISIBLE
+        view2.visibility = View.VISIBLE
+        text_view_remind_me.visibility = View.VISIBLE
+        imageView2.visibility = View.VISIBLE
+    }
+
+    fun setInvisible() {
+        time_picker.visibility = View.GONE
+        button_in_24_hours.visibility = View.GONE
+        button_an_hour_before.visibility = View.GONE
+        button_15_mins_before.visibility = View.GONE
+        view.visibility = View.GONE
+        view2.visibility = View.GONE
+        text_view_remind_me.visibility = View.GONE
+        imageView2.visibility = View.GONE
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        val pendingIntent =
+            PendingIntent.getActivity(this, NOTIFICATION_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val CHANNEL_ID = "ToDo"
+        notificationBuilder = NotificationCompat.Builder(applicationContext, "sync")
+            .setSmallIcon(R.mipmap.ic_todo_icon)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setChannelId(CHANNEL_ID)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelName = "ToDo"
+            val name = channelName
+            val descriptionText = "hello"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelName, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            notificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 }
 

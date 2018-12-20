@@ -6,13 +6,14 @@ import android.arch.persistence.room.PrimaryKey
 @Entity(tableName = "todo_table")
 data class ToDo(
     @PrimaryKey(autoGenerate = true)
-    var toDoId: Int?,
+    var toDoId: Int,
     var title: String,
     var doneStatus: Boolean,
     var priority: Int,
-    var remainder: String?,
-    var timeToDo: Long,
-    var hasTime:Boolean
+    var remainder: Long?,
+    var timeToDo: Long?,
+    var hasTime:Boolean,
+    var notificationId:Int?
 )
 
 

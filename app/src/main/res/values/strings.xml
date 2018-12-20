@@ -1,3 +1,5 @@
 <resources>
     <string name = "app_name">ToDo</string>
+    <string name = "notification_channel_description">Todo</string>
+    <string name = "notification">notification</string>
 </resources>

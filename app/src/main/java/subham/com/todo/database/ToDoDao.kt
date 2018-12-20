@@ -8,11 +8,15 @@ interface ToDoDao {
     @Insert
     fun insertDay(toDo: ToDo)
 
-    @Query("SELECT * FROM todo_table WHERE timeToDo >=:todayStart AND timeToDo<=:todayEnd ")
+    @Query("SELECT * FROM todo_table WHERE timeToDo >=:todayStart AND timeToDo<=:todayEnd ORDER BY doneStatus ASC")
     fun getAllToDo(todayStart:Long,todayEnd:Long): LiveData<List<ToDo>>
 
     @Delete
     fun deleteToDo(toDo: ToDo)
+
+    @Update
+    fun updateToDoStatus(toDo: ToDo)
+
 
 }
 
